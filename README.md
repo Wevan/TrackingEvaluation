@@ -1,3 +1,4 @@
+[![Build Status](https://www.travis-ci.org/Wevan/TrackingEvaluation.svg?branch=master)](https://www.travis-ci.org/Wevan/TrackingEvaluation)
 # 学习过程跟踪评价系统-学生端-前端
 
 ## :anchor:前端框架
