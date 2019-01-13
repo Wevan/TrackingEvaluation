@@ -1,3 +1,19 @@
+# 学习过程跟踪评价系统-学生端-前端
+
+## :anchor:前端框架
+Angular
+## :art:前端样式
+Ant——NG-ZORRO
+## :bulb: 功能
+- [x] 资源查看
+- [x] 资源推荐
+- [x] 课程达成度
+- [x] 毕业达成度
+- [x] 成绩报告
+## :memo: 更新日志
+- 2019.1.13  
+[:sparkles:]首页基本布局 
+
 # Project
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.5.
