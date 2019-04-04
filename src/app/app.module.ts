@@ -12,25 +12,29 @@ import en from '@angular/common/locales/en';
 import { IndexComponent } from './index/index.component';
 import { CardComponent } from './card/card.component';
 import { ProgressComponent } from './progress/progress.component';
+import { LoginComponent } from './login/login.component';
+import {SharedModule} from './shared/shared.module';
+import {CanLoginProvide} from './definder/CanLoginProvide';
+import { ResourceComponent } from './resource/resource.component';
+import { ListComponent } from './list/list.component';
+import { ReportComponent } from './report/report.component';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
-    AppComponent,
-    IndexComponent,
-    CardComponent,
-    ProgressComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgZorroAntdModule,
+    SharedModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{provide: NZ_I18N, useValue: en_US}, CanLoginProvide],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

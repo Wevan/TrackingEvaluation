@@ -4,9 +4,8 @@
       <img src="../../assets/logo.png" height="31px">
     </div>
     <ul nz-menu [nzTheme]="'dark'" [nzMode]="'horizontal'" style="line-height: 64px;">
-      <li nz-menu-item>nav 1</li>
-      <li nz-menu-item>nav 2</li>
-      <li nz-menu-item>nav 3</li>
+      <li nz-menu-item routerLink="/list">课程</li>
+      <li nz-menu-item routerLink="/report">报告中心</li>
     </ul>
   </nz-header>
   <nz-content style="padding:0 50px;">
@@ -15,90 +14,9 @@
       <nz-breadcrumb-item>List</nz-breadcrumb-item>
       <nz-breadcrumb-item>App</nz-breadcrumb-item>
     </nz-breadcrumb>
-    <nz-layout style="padding:20px 0; background: #fff">
-      <nz-sider [nzWidth]="250" style="background:#fff">
-        <div>
-
-          <ul class="sider-ul" style="height:100%;list-style-type:none;color: #8c8c8c">
-
-            <div style="text-align: center;">
-              <nz-avatar [nzSize]="80" nzIcon="user"></nz-avatar>
-            </div>
-            <li style="margin-top: 35px;">
-              学院：软件学院-软件开发与测试
-            </li>
-
-            <li>
-              班级：17130113
-            </li>
-            <li>
-              姓名：阿达啊
-            </li>
-            <div style="height: 1px;width: 100%;background: #E9E9E9;margin-top: 18px"></div>
-
-            <li>
-              <b style="color: #585858">
-                毕业达成度
-              </b>
-
-            </li>
-            <li style="margin-top: 50px;text-align: center;">
-              <app-progress></app-progress>
-            </li>
-            <li>
-
-              <div style="float: left;margin-left: 8%">
-                <i nz-icon style="color: hotpink;">
-                  <svg>
-                    <path
-                      d="M923 283.6c-13.4-31.1-32.6-58.9-56.9-82.8-24.3-23.8-52.5-42.4-84-55.5-32.5-13.5-66.9-20.3-102.4-20.3-49.3 0-97.4 13.5-139.2 39-10 6.1-19.5 12.8-28.5 20.1-9-7.3-18.5-14-28.5-20.1-41.8-25.5-89.9-39-139.2-39-35.5 0-69.9 6.8-102.4 20.3-31.4 13-59.7 31.7-84 55.5-24.4 23.9-43.5 51.7-56.9 82.8-13.9 32.3-21 66.6-21 101.9 0 33.3 6.8 68 20.3 103.3 11.3 29.5 27.5 60.1 48.2 91 32.8 48.9 77.9 99.9 133.9 151.6 92.8 85.7 184.7 144.9 188.6 147.3l23.7 15.2c10.5 6.7 24 6.7 34.5 0l23.7-15.2c3.9-2.5 95.7-61.6 188.6-147.3 56-51.7 101.1-102.7 133.9-151.6 20.7-30.9 37-61.5 48.2-91 13.5-35.3 20.3-70 20.3-103.3 0.1-35.3-7-69.6-20.9-101.9z"/>
-                  </svg>
-                </i>&nbsp;课程
-                <p style="margin-left: 28%;font-size: 20px">14</p>
-              </div>
-              <div style="height: 50px;width: 2px;background: #E9E9E9;float: left;margin-left: 17%"></div>
-              <div style="float: right;margin-right: 15%">
-                <i nz-icon style="color: #facc15">
-                  <svg>
-                    <path
-                      d="M923 283.6c-13.4-31.1-32.6-58.9-56.9-82.8-24.3-23.8-52.5-42.4-84-55.5-32.5-13.5-66.9-20.3-102.4-20.3-49.3 0-97.4 13.5-139.2 39-10 6.1-19.5 12.8-28.5 20.1-9-7.3-18.5-14-28.5-20.1-41.8-25.5-89.9-39-139.2-39-35.5 0-69.9 6.8-102.4 20.3-31.4 13-59.7 31.7-84 55.5-24.4 23.9-43.5 51.7-56.9 82.8-13.9 32.3-21 66.6-21 101.9 0 33.3 6.8 68 20.3 103.3 11.3 29.5 27.5 60.1 48.2 91 32.8 48.9 77.9 99.9 133.9 151.6 92.8 85.7 184.7 144.9 188.6 147.3l23.7 15.2c10.5 6.7 24 6.7 34.5 0l23.7-15.2c3.9-2.5 95.7-61.6 188.6-147.3 56-51.7 101.1-102.7 133.9-151.6 20.7-30.9 37-61.5 48.2-91 13.5-35.3 20.3-70 20.3-103.3 0.1-35.3-7-69.6-20.9-101.9z"/>
-                  </svg>
-                </i>&nbsp;考试
-                <p style="margin-left: 25%;font-size: 20px">10</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-
-      </nz-sider>
-      <nz-content class="content">
-        <b style="color: #585858;margin-top: 18px">
-          本期课程
-        </b>
-        <div style="height: 1px;width: 100%;background: #E9E9E9;margin-top: 18px"></div>
-        <div class="course">
-
-          <app-card></app-card>
-        </div>
-        <div style="color: #585858;margin-top: 18px">
-          <b >
-            推荐你看
-          </b>
-        </div>
-
-        <div style="height: 1px;width: 100%;background: #E9E9E9;margin-top: 18px"></div>
-        <div class="course">
-
-          <app-card></app-card>
-          <app-card></app-card>
-          <app-card></app-card>
-          <app-card></app-card>
-          <app-card></app-card>
-        </div>
-
-      </nz-content>
-    </nz-layout>
+    <div style="min-height: 360px;">
+      <router-outlet></router-outlet>
+    </div>
     <nz-footer style="text-align: center;">Ant Design ©2017 Implement By Angular</nz-footer>
   </nz-content>
 </nz-layout>

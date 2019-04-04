@@ -1,0 +1,16 @@
+<div style="background-color: gainsboro;">
+  <div>
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+      <input type="text" nz-input placeholder="input search text" [(ngModel)]="searchContent" (input)="search(searchContent)">
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <i nz-icon type="search"></i>
+    </ng-template>
+  </div>
+  <div class="pdf-container">
+    <pdf-viewer [src]="pdfObject"
+                [original-size]="false"
+    ></pdf-viewer>
+  </div>
+</div>
+

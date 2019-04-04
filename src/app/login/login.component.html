@@ -1,0 +1,47 @@
+<div class="content">
+  <div class="logo">
+    <img src="../../assets/loginlogo.png" alt="" width="450px">
+    <span></span>
+  </div>
+  <div class="loginForm">
+    <form nz-form  [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group [nzPrefix]="prefixUser" nzSize="large">
+            <input type="text" nz-input nzSize="large" formControlName="userName" placeholder="Username">
+          </nz-input-group>
+          <nz-form-explain *ngIf="validateForm.get('userName').dirty && validateForm.get('userName').errors">Please
+            input
+            your username!
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group [nzPrefix]="prefixLock"  nzSize="large">
+            <input type="password" nz-input nzSize="large" formControlName="password" placeholder="Password">
+
+          </nz-input-group>
+          <nz-form-explain *ngIf="validateForm.get('password').dirty && validateForm.get('password').errors">Please
+            input
+            your Password!
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <label nz-checkbox formControlName="remember">
+            <span>Remember me</span>
+          </label>
+          <a class="login-form-forgot" class="login-form-forgot">Forgot password</a>
+          <button nz-button nzSize="large" class="login-form-button" [nzType]="'primary'" (click)="loginTo()">Log in</button>
+
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+
+
+  <ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+  <ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+</div>
