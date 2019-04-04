@@ -1,0 +1,26 @@
+.sider-ul {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  li {
+    margin-top: 18px;
+  }
+}
+
+.course {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 18px;
+
+  app-card {
+    margin-left: 15px;
+    margin-bottom: 40px;
+  }
+}
+
+.content {
+  padding: 0 24px;
+  min-height: 280px;
+}
