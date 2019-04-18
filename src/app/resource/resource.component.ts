@@ -258,4 +258,5 @@ export class ResourceComponent implements OnInit {
       }
     );
   }
+
 }

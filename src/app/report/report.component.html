@@ -1,5 +1,11 @@
 <nz-layout style="padding:20px; background: #fff;min-height: 500px">
   <p>
-    report works!
+    请先点击生成个人报告，等待5分钟后再进行个人报告的下载
   </p>
+  <button nz-button nzType="primary" [nzSize]="size" nzShape="round" (click)="initReport()">
+    <i nz-icon type="edit"></i>生成个人报告
+  </button>
+  <button nz-button nzType="primary" [nzSize]="size" nzShape="round" (click)="getReport()">
+    <i nz-icon type="download"></i>下载个人报告
+  </button>
 </nz-layout>

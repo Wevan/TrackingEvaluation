@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-
 import {Observable} from 'rxjs';
 import {Result} from '../entity/Result';
 import {VideoRecord} from '../entity/VideoRecord';
 import {Resource} from '../entity/Resource';
+import {StudentResource} from '../entity/StudentResource';
 
 @Injectable()
 export class ResourceService {
@@ -19,17 +19,27 @@ export class ResourceService {
   record(videoRecord: VideoRecord): Observable<Result> {
     const heroesUrl = '/record/insert';
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI' +
-          'xNTE0MDEwMzExIiwidXNlcklkIjoxNTU2LCJpYXQiOjE1NDg5OTA0MzMsImV4cCI6MTU0OTU5NTIzM30.E1icoKYMs39g-TRRzTJvkm0JaW0kVbMywBWzUA9Eg0s'
-      })
-    };
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'application/json',
+    //     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI' +
+    //       'xNTE0MDEwMzExIiwidXNlcklkIjoxNTU2LCJpYXQiOjE1NDg5OTA0MzMsImV4cCI6MTU0OTU5NTIzM30.E1icoKYMs39g-TRRzTJvkm0JaW0kVbMywBWzUA9Eg0s'
+    //   })
+    // };
 
-    return this.http.post<Result>(heroesUrl, videoRecord, httpOptions);
+    return this.http.post<Result>(heroesUrl, videoRecord);
   }
 
+  recordEnd(studentResource: StudentResource): Observable<Result> {
+    const Url = '/sturesource/insert';
+    console.log('Stu Service ', studentResource.knowledgeId);
+    return this.http.post<Result>(Url, studentResource);
+  }
+
+  /**
+   * 添加文件
+   * @param resource 添加的文件
+   */
   resource(resource: Resource): Observable<Result> {
     const heroesUrl = '/resource/file?chapterId=' + resource.resourceDirctoryFile.chapterId + '&courseId='
       + resource.resourceDirctoryFile.courseId;
@@ -59,14 +69,11 @@ export class ResourceService {
     const url = '/resource/downloadFile?id=' + id;
     // @ts-ignore
     return this.http.get<any>(url, {responseType: 'blob'});
+  }
 
-    // .pipe(
-    //   tap( // Log the result or error
-    //     data => console.log(id, data),
-    //     error => console.log(id, error)
-    //   )
-    // );
-    // return this.http.post<Result>(url, id);
+  getOne(id: number) {
+    const url = '/resource/detail?id=' + id;
+    return this.http.get<Result>(url);
   }
 
 }

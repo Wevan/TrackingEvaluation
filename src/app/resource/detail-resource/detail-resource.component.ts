@@ -5,6 +5,7 @@ import {ResourceService} from '../resource.service';
 import {ActivatedRoute} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {distanceInWords} from 'date-fns';
+import {StudentResource} from '../../entity/StudentResource';
 
 @Component({
   selector: 'app-detail-resource',
@@ -65,7 +66,8 @@ export class DetailResourceComponent implements OnInit, AfterViewInit {
     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
   };
   inputValue = '';
-
+  resourceId = 0;
+  resourceDetail;
 
   constructor(private resourceService: ResourceService, private routerInfo: ActivatedRoute,
               private sanitizer: DomSanitizer, private elementRef: ElementRef) {
@@ -73,37 +75,21 @@ export class DetailResourceComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     console.log('Get the id param is ', this.routerInfo.snapshot.params['id']);
-    // this.safeUrl = this.sanitizer
+    this.resourceId = this.routerInfo.snapshot.params['id'];
     this.urlParam = 'http://localhost:8085/resource/getVideo?id=' + this.routerInfo.snapshot.params['id'];
-    //   .bypassSecurityTrustUrl('http://localhost:8085/resource/getVideo?id=' + this.routerInfo.snapshot.params['id']);
-    // this.videoObject.url = this.safeUrl;
-    // this.videoObject.httpHeaders = {Authorization: localStorage.getItem('token')};
-    // this.videoObject.withCredentials = true;
   }
 
   ngAfterViewInit(): void {
-//     const xhr = new XMLHttpRequest();
-//     const that = this;
-//     xhr.onreadystatechange = function () {
-//       if (this.readyState === 4) {
-//         if (this.status === 200) {
-//           const res = this.response || this.responseText;
-//           // type 里的类型瞎猜的。。
-//           const blob = new Blob([res], {type: 'video/mpeg4'});
-//           const blobUrl = URL.createObjectURL(blob);
-//           that.safeUrl = that.sanitizer.bypassSecurityTrustUrl(blobUrl);
-//           // document.querySelector('.source').src = that.safeUrl;
-//           that.urlParam.nativeElement.src = blobUrl;
-//         }
-//       }
-//     };
-//     xhr.open('get', 'http://localhost:8085/resource/getVideo?id=' + this.routerInfo.snapshot.params['id'], true);
-// // 可以设置多个，例如
-//     xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
-// // 发射
-//     xhr.send();
-//     console.log('src ', this.urlParam.nativeElement.src);
-//     console.log('url ', this.safeUrl);
+    const that = this;
+    that.resourceService.getOne(this.resourceId).subscribe(
+      next => {
+        console.log('Get resource detail', next.data);
+        that.resourceDetail = next.data;
+      },
+      err => {
+
+      }
+    );
   }
 
   /**
@@ -132,6 +118,7 @@ export class DetailResourceComponent implements OnInit, AfterViewInit {
       });
     }, 800);
   }
+
   like(): void {
     this.likes = 1;
     this.dislikes = 0;
@@ -141,6 +128,7 @@ export class DetailResourceComponent implements OnInit, AfterViewInit {
     this.likes = 0;
     this.dislikes = 1;
   }
+
   /**
    * 视频预览
    */
@@ -152,25 +140,10 @@ export class DetailResourceComponent implements OnInit, AfterViewInit {
     this.api.getDefaultMedia().subscriptions.ended.subscribe(
       () => {
         // Set the video to the beginning
-        this.api.getDefaultMedia().currentTime = 20;
+        this.videoEnd();
+        console.log('end exe');
       }
     );
-    const that = this;
-    document.getElementById('singleVideo').addEventListener('onbeforeunload', function () {
-      const videoRecord = new VideoRecord();
-
-      videoRecord.overtime = that.api.currentTime;
-      console.log('time is ', that.api.currentTime);
-      videoRecord.knowledgeId = '1';
-      videoRecord.userId = 2;
-      that.resourceService.record(videoRecord).subscribe(
-        (event: {}) => {
-        },
-        err => {
-
-        }
-      );
-    });
   }
 
   /**
@@ -196,11 +169,30 @@ export class DetailResourceComponent implements OnInit, AfterViewInit {
    * 暂停
    */
   pauseSend() {
-    const that = this;
-    if (that.api.state === 'playing') {
-      this.timeRecord();
-    }
+    // const that = this;
+    // if (that.api.state === 'playing') {
+    //   this.timeRecord();
+    // }
   }
 
+  /**
+   * 视频播放完成插入学生记录
+   */
+  videoEnd() {
+    const that = this;
+    const studentResource = new StudentResource();
+    studentResource.resourceId = that.resourceId;
+    studentResource.percent = 1;
+    studentResource.courseId = that.resourceDetail.courseId;
+    studentResource.studentId = localStorage.getItem('userName');
+    studentResource.knowledgeId = that.resourceDetail.knowledgeId;
+    that.resourceService.recordEnd(studentResource).subscribe(
+      (event: {}) => {
+      },
+      err => {
+
+      }
+    );
+  }
 
 }

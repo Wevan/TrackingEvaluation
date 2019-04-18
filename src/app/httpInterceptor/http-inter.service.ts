@@ -1,7 +1,8 @@
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {Router} from '@angular/router';
 
 @Injectable()
@@ -11,6 +12,7 @@ export class HttpInter implements HttpInterceptor {
   constructor(private router: Router) {
   }
 
+
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler,
@@ -19,7 +21,7 @@ export class HttpInter implements HttpInterceptor {
     let request: HttpRequest<any>;
     // 登录无需要token
     console.log('URL ', req.url);
-    if (req.url === '/user/login') {
+    if (req.url === '/user/login' || req.url === '/report/down') {
       request = req.clone({
         url: `${this.baseUrl}${req.url}`,
         headers: req.headers.set('Content-Type', 'application/json'),
