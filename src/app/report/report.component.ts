@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Result} from '../entity/Result';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-report',

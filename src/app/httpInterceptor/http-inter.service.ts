@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 
 @Injectable()
 export class HttpInter implements HttpInterceptor {
+  // private baseUrl = 'http://106.12.195.114:8085';
   private baseUrl = 'http://localhost:8085';
 
   constructor(private router: Router) {
