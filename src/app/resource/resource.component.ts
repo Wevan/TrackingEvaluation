@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ResourceService} from './resource.service';
 import {NzMessageService, UploadFile} from 'ng-zorro-antd';
 import {FormBuilder} from '@angular/forms';
@@ -21,12 +21,25 @@ export class ResourceComponent implements OnInit {
 
   isVisible = false;
   isOkLoading = false;
-
+  /**
+   * 资源list列表数据
+   */
   data: any[] = [];
+  data1: any[] = [];
+  data2: any[] = [];
 
   list: ResourceMsg[] = [];
 
   listLength: number;
+  videoLength: number;
+  pdfLength: number;
+  otherLength: number;
+  /**
+   * 资源分类展示
+   */
+  videoList: any[] = [];
+  pdfList: any[] = [];
+  otherList: any[] = [];
   /**
    * 添加资源
    */
@@ -98,7 +111,7 @@ export class ResourceComponent implements OnInit {
     this.fileList.push(file);
     console.log('add file ', file);
     return false;
-  }
+  };
 
 
   /**
@@ -109,29 +122,91 @@ export class ResourceComponent implements OnInit {
     this.getList();
   }
 
+  /**
+   * 装载数据 1为video 2为pdf 3为others
+   * @param pi 初始页码
+   */
   loadData(pi: number): void {
-    if (5 * pi <= this.listLength) {
-      this.data = new Array(5).fill({}).map((i, index) => {
+    if (10 * pi <= this.videoLength) {
+      this.data = new Array(10).fill({}).map((i, index) => {
         return {
           href: '/resource',
-          title: this.list[index + 5 * (pi - 1)].name,
+          title: this.videoList[index + 10 * (pi - 1)].name,
           description: '',
           content: ' beautifully and efficiently.',
-          type: this.list[index + 5 * (pi - 1)].type,
-          url: this.list[index + 5 * (pi - 1)].url,
-          id: this.list[index + 5 * (pi - 1)].id
+          type: this.videoList[index + 10 * (pi - 1)].type,
+          url: this.videoList[index + 10 * (pi - 1)].url,
+          id: this.videoList[index + 10 * (pi - 1)].id
         };
       });
     } else {
-      this.data = new Array(this.listLength - 5 * (pi - 1)).fill({}).map((i, index) => {
+      this.data = new Array(this.videoLength - 10 * (pi - 1)).fill({}).map((i, index) => {
         return {
           href: '/resource',
-          title: this.list[index + 5 * (pi - 1)].name,
+          title: this.videoList[index + 10 * (pi - 1)].name,
           description: 'Ant Design, a design language for background applications.',
           content: ' beautifully and efficiently.',
-          type: this.list[index + 5 * (pi - 1)].type,
-          url: this.list[index + 5 * (pi - 1)].url,
-          id: this.list[index + 5 * (pi - 1)].id
+          type: this.videoList[index + 10 * (pi - 1)].type,
+          url: this.videoList[index + 10 * (pi - 1)].url,
+          id: this.videoList[index + 10 * (pi - 1)].id
+        };
+      });
+    }
+
+  }
+
+  loadData2(pi: number): void {
+    if (10 * pi <= this.pdfLength) {
+      this.data1 = new Array(10).fill({}).map((i, index) => {
+        return {
+          href: '/resource',
+          title: this.pdfList[index + 10 * (pi - 1)].name,
+          description: '',
+          content: ' beautifully and efficiently.',
+          type: this.pdfList[index + 10 * (pi - 1)].type,
+          url: this.pdfList[index + 10 * (pi - 1)].url,
+          id: this.pdfList[index + 10 * (pi - 1)].id
+        };
+      });
+    } else {
+      this.data1 = new Array(this.pdfLength - 10 * (pi - 1)).fill({}).map((i, index) => {
+        return {
+          href: '/resource',
+          title: this.pdfList[index + 10 * (pi - 1)].name,
+          description: 'Ant Design, a design language for background applications.',
+          content: ' beautifully and efficiently.',
+          type: this.pdfList[index + 10 * (pi - 1)].type,
+          url: this.pdfList[index + 10 * (pi - 1)].url,
+          id: this.pdfList[index + 10 * (pi - 1)].id
+        };
+      });
+    }
+
+  }
+
+  loadData3(pi: number): void {
+    if (10 * pi <= this.otherLength) {
+      this.data2 = new Array(10).fill({}).map((i, index) => {
+        return {
+          href: '/resource',
+          title: this.otherList[index + 10 * (pi - 1)].name,
+          description: '',
+          content: ' beautifully and efficiently.',
+          type: this.otherList[index + 10 * (pi - 1)].type,
+          url: this.otherList[index + 10 * (pi - 1)].url,
+          id: this.otherList[index + 10 * (pi - 1)].id
+        };
+      });
+    } else {
+      this.data2 = new Array(this.otherLength - 10 * (pi - 1)).fill({}).map((i, index) => {
+        return {
+          href: '/resource',
+          title: this.otherList[index + 10 * (pi - 1)].name,
+          description: 'Ant Design, a design language for background applications.',
+          content: ' beautifully and efficiently.',
+          type: this.otherList[index + 10 * (pi - 1)].type,
+          url: this.otherList[index + 10 * (pi - 1)].url,
+          id: this.otherList[index + 10 * (pi - 1)].id
         };
       });
     }
@@ -250,8 +325,29 @@ export class ResourceComponent implements OnInit {
       next => {
         this.list = next.data;
         this.listLength = this.list.length;
+        const that = this;
+        this.list.map((item: ResourceMsg) => {
+            // 0视频；1pdf；2其他文件
+            // @ts-ignore
+            if (item.type === 0) {
+              that.videoList.push(item);
+            } else {
+              // @ts-ignore
+              if (item.type === 1) {
+                that.pdfList.push(item);
+              } else {
+                that.otherList.push(item);
+              }
+            }
+          }
+        );
+        this.videoLength = this.videoList.length;
+        this.pdfLength = this.pdfList.length;
+        this.otherLength = this.otherList.length;
+        console.log('PdfList', this.pdfList);
         this.loadData(1);
-        console.log(this.list);
+        this.loadData2(1);
+        this.loadData3(1);
       },
       err => {
         console.log(err);

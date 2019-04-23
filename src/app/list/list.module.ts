@@ -5,7 +5,6 @@ import {ListRoutingModule} from './list-routing.module';
 import {ListComponent} from './list.component';
 import {CardComponent} from '../card/card.component';
 import {ProgressComponent} from '../progress/progress.component';
-import {ResourceComponent} from '../resource/resource.component';
 import {ResourceService} from '../resource/resource.service';
 
 @NgModule({
