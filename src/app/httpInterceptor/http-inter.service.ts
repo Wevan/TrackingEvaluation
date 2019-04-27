@@ -2,15 +2,19 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {tap} from 'rxjs/operators';
-import {map} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
 import {Router} from '@angular/router';
 
 @Injectable()
 export class HttpInter implements HttpInterceptor {
-  // private baseUrl = 'http://106.12.195.114:8085';
-  private baseUrl = 'http://localhost:8085';
+  private baseUrl: string;
 
   constructor(private router: Router) {
+    if (environment.production) {
+      this.baseUrl = 'http://106.12.195.114:8085';
+    } else {
+      this.baseUrl = 'http://localhost:8085';
+    }
   }
 
 
