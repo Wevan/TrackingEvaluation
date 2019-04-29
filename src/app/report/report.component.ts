@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Result} from '../entity/Result';
 import {HttpClient} from '@angular/common/http';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-report',
@@ -9,16 +10,33 @@ import {HttpClient} from '@angular/common/http';
 })
 export class ReportComponent implements OnInit {
 
-  size = 'large';
+  constructor(private http: HttpClient, private cookieService: CookieService) {
+  }
 
-  constructor(private http: HttpClient) {
+  size = 'large';
+  userName = '';
+
+  static downFile(result, fileName, fileType?) {
+    const blob = new Blob([result], {type: fileType});
+    const objectUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('style', 'display:none');
+    a.setAttribute('href', objectUrl);
+    a.setAttribute('download', fileName);
+    a.click();
+    URL.revokeObjectURL(objectUrl);
   }
 
   ngOnInit() {
   }
 
   initReport() {
-    const url = '/report/file?id=' + localStorage.getItem('userName') + '&type=2&courseId=1';
+    this.userName = localStorage.getItem('userName');
+    if (this.userName === null || this.userName === '') {
+      this.userName = this.cookieService.get('userName');
+    }
+    // 对学生端courseId无需设置的
+    const url = '/report/file?id=' + this.userName + '&type=2&courseId=1';
     this.http.get<Result>(url).subscribe(
       next => {
       },
@@ -29,28 +47,21 @@ export class ReportComponent implements OnInit {
   }
 
   getReport() {
-    const url = '/report/down?id=' + localStorage.getItem('userName');
+    this.userName = localStorage.getItem('userName');
+    if (this.userName === null || this.userName === '') {
+      this.userName = this.cookieService.get('userName');
+    }
+    const url = '/report/down?id=' + this.userName;
     // @ts-ignore
     this.http.get<any>(url, {responseType: 'blob'}).subscribe(
       next => {
         console.log(next);
-        this.downFile(next, localStorage.getItem('userName'), 'application/pdf');
+        ReportComponent.downFile(next, this.userName, 'application/pdf');
       },
       err => {
         console.log(err);
       }
     );
-  }
-
-  downFile(result, fileName, fileType?) {
-    const blob = new Blob([result], {type: fileType});
-    const objectUrl = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.setAttribute('style', 'display:none');
-    a.setAttribute('href', objectUrl);
-    a.setAttribute('download', fileName);
-    a.click();
-    URL.revokeObjectURL(objectUrl);
   }
 
 }

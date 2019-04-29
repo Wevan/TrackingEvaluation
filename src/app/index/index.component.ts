@@ -1,13 +1,42 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Result} from '../entity/Result';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-nz-demo-layout-top-side',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.scss']
 })
-export class IndexComponent {
+export class IndexComponent implements OnInit {
 
-  constructor() { }
+  constructor(private http: HttpClient) {
+  }
+
   text = 'Nuc';
+
+  getStudent() {
+    let userName = localStorage.getItem('userName');
+    if (userName === null || userName === '') {
+      userName = sessionStorage.getItem('userName');
+    }
+    const url = '/student/detail?studentNumber=' + userName;
+    // @ts-ignore
+    this.http.get<Result>(url).subscribe(
+      next => {
+        console.log('User Info is ', next.data);
+        sessionStorage.setItem('uid', next.data.userId);
+        sessionStorage.setItem('Name', next.data.name);
+        sessionStorage.setItem('identity', next.data.id);
+        sessionStorage.setItem('classId', next.data.classId);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  ngOnInit(): void {
+    this.getStudent();
+  }
 
 }

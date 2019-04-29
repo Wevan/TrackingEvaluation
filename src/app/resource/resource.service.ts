@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Result} from '../entity/Result';
 import {VideoRecord} from '../entity/VideoRecord';
 import {Resource} from '../entity/Resource';
 import {StudentResource} from '../entity/StudentResource';
+import {UserComment} from '../entity/UserComment';
 
 @Injectable()
 export class ResourceService {
@@ -18,15 +19,6 @@ export class ResourceService {
    */
   record(videoRecord: VideoRecord): Observable<Result> {
     const heroesUrl = '/record/insert';
-
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'Content-Type': 'application/json',
-    //     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI' +
-    //       'xNTE0MDEwMzExIiwidXNlcklkIjoxNTU2LCJpYXQiOjE1NDg5OTA0MzMsImV4cCI6MTU0OTU5NTIzM30.E1icoKYMs39g-TRRzTJvkm0JaW0kVbMywBWzUA9Eg0s'
-    //   })
-    // };
-
     return this.http.post<Result>(heroesUrl, videoRecord);
   }
 
@@ -73,6 +65,30 @@ export class ResourceService {
 
   getOne(id: number) {
     const url = '/resource/detail?id=' + id;
+    return this.http.get<Result>(url);
+  }
+
+  /**
+   * 查找学生是否有资源学习记录
+   */
+  findByResource(resourceId: number, studentId: number) {
+    const url = '/sturesource/findByResource?resourceId=' + resourceId + '&studentId=' + studentId;
+    return this.http.get<Result>(url);
+  }
+
+  /**
+   * 添加评论
+   */
+  addComment(comment: UserComment) {
+    const Url = '/comment/insert';
+    return this.http.post<Result>(Url, comment);
+  }
+
+  /**
+   * 查找一个视频下的评论
+   */
+  findComment(videoId: number) {
+    const url = '/comment/findAll?videoId=' + videoId;
     return this.http.get<Result>(url);
   }
 

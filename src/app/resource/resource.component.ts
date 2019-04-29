@@ -5,6 +5,7 @@ import {FormBuilder} from '@angular/forms';
 import {Resource} from '../entity/Resource';
 import {ResourceMsg} from '../entity/ResourceMsg';
 import {Router} from '@angular/router';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-resource',
@@ -13,14 +14,10 @@ import {Router} from '@angular/router';
 })
 export class ResourceComponent implements OnInit {
 
-  constructor(private msg: NzMessageService, private resourceService: ResourceService, private fb: FormBuilder, private router: Router) {
+  constructor(private msg: NzMessageService, private resourceService: ResourceService, private fb: FormBuilder, private router: Router,
+              private cookieService: CookieService) {
   }
 
-  uploading = false;
-  fileList: UploadFile[] = [];
-
-  isVisible = false;
-  isOkLoading = false;
   /**
    * 资源list列表数据
    */
@@ -40,78 +37,6 @@ export class ResourceComponent implements OnInit {
   videoList: any[] = [];
   pdfList: any[] = [];
   otherList: any[] = [];
-  /**
-   * 添加资源
-   */
-
-  selectedChapter = '第一章';
-  selectedTips = '基础概论';
-  chapterData = ['第一章', '第二章'];
-  tipsData = {
-    第一章: ['基础概论', '树', '图'],
-    第二章: ['哈希算法', '查找', '排序']
-  };
-
-  provinceChange(value: string): void {
-    this.selectedTips = this.tipsData[value][0];
-  }
-
-  // pop modal
-  showModal(): void {
-    this.isVisible = true;
-  }
-
-  handleOk(): void {
-    this.isOkLoading = true;
-    this.addResource();
-    window.setTimeout(() => {
-      this.isVisible = false;
-      this.isOkLoading = false;
-    }, 3000);
-  }
-
-  handleCancel(): void {
-    this.isVisible = false;
-  }
-
-  addResource() {
-    const resource = new Resource();
-    const resourceMsg = new ResourceMsg();
-    if (this.selectedChapter === '第一章') {
-      resourceMsg.chapterId = 1;
-    } else {
-      resourceMsg.chapterId = 2;
-    }
-    resourceMsg.courseId = 1;
-    resourceMsg.name = '';
-    resourceMsg.type = '1';
-    resource.resourceDirctoryFile = resourceMsg;
-    // const formData = new FormData();
-    this.fileList.forEach((file: any) => {
-      // formData.append('file', file);
-      resource.file = file;
-    });
-
-    this.uploading = true;
-    this.resourceService.resource(resource).subscribe(
-      (event: {}) => {
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
-
-
-  /**
-   * 上传文件
-   *
-   */
-  beforeUpload = (file: UploadFile): boolean => {
-    this.fileList.push(file);
-    console.log('add file ', file);
-    return false;
-  };
 
 
   /**
@@ -344,7 +269,6 @@ export class ResourceComponent implements OnInit {
         this.videoLength = this.videoList.length;
         this.pdfLength = this.pdfList.length;
         this.otherLength = this.otherList.length;
-        console.log('PdfList', this.pdfList);
         this.loadData(1);
         this.loadData2(1);
         this.loadData3(1);

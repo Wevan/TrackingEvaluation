@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PdfViewerComponent} from 'ng2-pdf-viewer';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-pdf-viewer',
@@ -9,7 +10,7 @@ import {PdfViewerComponent} from 'ng2-pdf-viewer';
 })
 export class PdfViewerSelfComponent implements OnInit {
 
-  constructor(private routerInfo: ActivatedRoute) {
+  constructor(private routerInfo: ActivatedRoute, private cookieService: CookieService) {
   }
 
   @ViewChild(PdfViewerComponent) private pdfComponent: PdfViewerComponent;
@@ -27,7 +28,11 @@ export class PdfViewerSelfComponent implements OnInit {
   ngOnInit() {
     console.log('Get the id param is ', this.routerInfo.snapshot.params['id']);
     this.pdfObject.url = 'http://localhost:8085/resource/getPdf?id=' + this.routerInfo.snapshot.params['id'];
-    this.pdfObject.httpHeaders = {Authorization: localStorage.getItem('token')};
+    let token = this.cookieService.get('token');
+    if (token === '' || token == null) {
+      token = sessionStorage.getItem('token');
+    }
+    this.pdfObject.httpHeaders = {Authorization: token};
     this.pdfObject.withCredentials = true;
   }
 

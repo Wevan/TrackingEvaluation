@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {en_US, NgZorroAntdModule, NZ_I18N} from 'ng-zorro-antd';
 import {httpInterceptorProviders} from '../httpInterceptor';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CookieService} from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [],
@@ -17,7 +18,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [{provide: NZ_I18N, useValue: en_US}, httpInterceptorProviders],
+  providers: [{provide: NZ_I18N, useValue: en_US}, httpInterceptorProviders, CookieService],
 })
 export class SharedModule {
 }

@@ -32,22 +32,8 @@ export class ListComponent implements OnInit {
         console.log(err);
       }
     );
-    this.getStudent();
+    this.sname = sessionStorage.getItem('Name');
   }
 
-  getStudent() {
-
-    const url = '/student/detail?studentNumber=' + localStorage.getItem('userName').toString();
-    // @ts-ignore
-    this.http.get<Result>(url).subscribe(
-      next => {
-        this.sname = next.data.name;
-        console.log(this.sname);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
 
 }
