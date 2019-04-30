@@ -6,6 +6,7 @@ import {VideoRecord} from '../entity/VideoRecord';
 import {Resource} from '../entity/Resource';
 import {StudentResource} from '../entity/StudentResource';
 import {UserComment} from '../entity/UserComment';
+import {Collection} from '../entity/Collection';
 
 @Injectable()
 export class ResourceService {
@@ -90,6 +91,14 @@ export class ResourceService {
   findComment(videoId: number) {
     const url = '/comment/findAll?videoId=' + videoId;
     return this.http.get<Result>(url);
+  }
+
+  /**
+   * 添加收藏资源
+   */
+  addCollection(collection: Collection) {
+    const url = '/collection/insert';
+    return this.http.post<Result>(url, collection);
   }
 
 }

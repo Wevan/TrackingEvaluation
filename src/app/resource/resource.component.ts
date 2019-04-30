@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ResourceService} from './resource.service';
-import {NzMessageService, UploadFile} from 'ng-zorro-antd';
+import {NzMessageService} from 'ng-zorro-antd';
 import {FormBuilder} from '@angular/forms';
-import {Resource} from '../entity/Resource';
 import {ResourceMsg} from '../entity/ResourceMsg';
 import {Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
+import {Collection} from '../entity/Collection';
 
 @Component({
   selector: 'app-resource',
@@ -139,23 +139,6 @@ export class ResourceComponent implements OnInit {
   }
 
   /**
-   * 删除
-   */
-  deleteOne(id: number) {
-    this.resourceService.deleteOne(id).subscribe(
-      next => {
-        console.log(next);
-        this.list = next.data;
-        this.listLength = this.list.length;
-        this.loadData(1);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
-
-  /**
    * 下载
    */
   download(id: number, name: string) {
@@ -277,6 +260,63 @@ export class ResourceComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  /**
+   * 收藏
+   */
+  collection(id: number, url: string, type: string, title: string) {
+    console.log('URl is ', url);
+    const collection = new Collection();
+    collection.addTime = this.getNowDate();
+    collection.resouceId = id;
+    collection.userId = <number><unknown>sessionStorage.getItem('uid');
+    collection.userName = sessionStorage.getItem('Name');
+    collection.url = url;
+    collection.type = type;
+    collection.title = title;
+    this.resourceService.addCollection(collection).subscribe(
+      next => {
+        console.log(next);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  /**
+   * 获取格式化时间
+   */
+  getNowDate(): string {
+    const date = new Date();
+    let month: string | number = date.getMonth() + 1;
+    let strDate: string | number = date.getDate();
+    let strHour: string | number = date.getHours();
+    let strMin: string | number = date.getMinutes();
+    let strSec: string | number = date.getSeconds();
+
+    if (month <= 9) {
+      month = '0' + month;
+    }
+
+    if (strDate <= 9) {
+      strDate = '0' + strDate;
+    }
+
+    if (strHour <= 9) {
+      strHour = '0' + strHour;
+    }
+
+    if (strMin <= 9) {
+      strMin = '0' + strMin;
+    }
+
+    if (strSec <= 9) {
+      strSec = '0' + strSec;
+    }
+    return date.getFullYear() + '-' + month + '-' + strDate + ' '
+      + strHour + ':' + strMin + ':' + strSec;
   }
 
 }

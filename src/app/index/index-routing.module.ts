@@ -8,6 +8,7 @@ const routes: Routes = [
       {path: 'list', loadChildren: '../list/list.module#ListModule'},
       {path: 'report', loadChildren: '../report/report.module#ReportModule'},
       {path: 'resource', loadChildren: '../resource/resource.module#ResourceModule'},
+      {path: 'collection', loadChildren: '../collections/collections.module#CollectionsModule'},
     ]
   }
 ];

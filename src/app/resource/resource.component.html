@@ -3,30 +3,29 @@
     <nz-list
       [nzDataSource]="data"
       [nzItemLayout]="'vertical'"
-      [nzRenderItem]="item"
+      [nzRenderItem]="item1"
       [nzPagination]="pagination"
     >
-      <ng-template #item let-item>
-        <nz-list-item [nzContent]="item.content" [nzActions]="[starAction,likeAction,msgAction]" [nzExtra]="extra">
-          <ng-template #starAction><i nz-icon type="star-o" style="margin-right: 8px;"></i> 156</ng-template>
-          <ng-template #likeAction><i nz-icon type="like-o" style="margin-right: 8px;"></i> 156</ng-template>
+      <ng-template #item1 let-item1>
+        <nz-list-item [nzContent]="item1.content" [nzActions]="[starAction,msgAction]" [nzExtra]="extra">
+          <ng-template #starAction>
+            <i nz-icon type="star-o" style="margin-right: 8px;"
+               (click)="collection(item1.id,item1.url,item1.type,item1.title)"></i>
+          </ng-template>
           <ng-template #msgAction>
-            <button nz-button nzType="danger" (click)="deleteOne(item.id)">删除</button>
           </ng-template>
 
           <nz-list-item-meta
             [nzTitle]="nzTitle"
-            [nzDescription]="item.description">
-            <ng-template #nzTitle><a href="" (click)="download(item.id,item.title);false">{{item.title}}</a></ng-template>
+            [nzDescription]="item1.description">
+            <ng-template #nzTitle><a href="" (click)="download(item1.id,item1.title);false">{{item1.title}}</a>
+            </ng-template>
           </nz-list-item-meta>
           <ng-template #extra>
             <img width="272" alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png">
           </ng-template>
         </nz-list-item>
       </ng-template>
-      <!--  <ng-template #footer>-->
-      <!--    <div><b>ant design</b> footer part</div>-->
-      <!--  </ng-template>-->
 
       <!--分页-->
       <ng-template #pagination>
@@ -35,78 +34,74 @@
       </ng-template>
     </nz-list>
   </nz-tab>
+
   <nz-tab nzTitle="在线PDF">
     <nz-list
       [nzDataSource]="data1"
       [nzItemLayout]="'vertical'"
       [nzRenderItem]="item"
-      [nzPagination]="pagination"
+      [nzPagination]="pagination1"
     >
       <ng-template #item let-item>
-        <nz-list-item [nzContent]="item.content" [nzActions]="[starAction,likeAction,msgAction]" [nzExtra]="extra">
-          <ng-template #starAction><i nz-icon type="star-o" style="margin-right: 8px;"></i> 156</ng-template>
-          <ng-template #likeAction><i nz-icon type="like-o" style="margin-right: 8px;"></i> 156</ng-template>
+        <nz-list-item [nzContent]="item.content" [nzActions]="[starAction1,msgAction]" [nzExtra]="extra">
+          <ng-template #starAction1><i nz-icon type="star-o" style="margin-right: 8px;"
+                                       (click)="collection(item.id,item.url,item.type,item.title)"></i> 156</ng-template>
           <ng-template #msgAction>
-            <button nz-button nzType="danger" (click)="deleteOne(item.id)">删除</button>
           </ng-template>
 
           <nz-list-item-meta
             [nzTitle]="nzTitle"
             [nzDescription]="item.description">
-            <ng-template #nzTitle><a href="" (click)="download(item.id,item.title);false">{{item.title}}</a></ng-template>
+            <ng-template #nzTitle><a href="" (click)="download(item.id,item.title);false">{{item.title}}</a>
+            </ng-template>
           </nz-list-item-meta>
           <ng-template #extra>
             <img width="272" alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png">
           </ng-template>
         </nz-list-item>
       </ng-template>
-      <!--  <ng-template #footer>-->
-      <!--    <div><b>ant design</b> footer part</div>-->
-      <!--  </ng-template>-->
 
       <!--分页-->
-      <ng-template #pagination>
+      <ng-template #pagination1>
         <nz-pagination [nzPageIndex]="1" [nzTotal]="pdfLength"
                        (nzPageIndexChange)="loadData2($event)"></nz-pagination>
       </ng-template>
     </nz-list>
   </nz-tab>
+
   <nz-tab nzTitle="其他下载">
     <nz-list
       [nzDataSource]="data2"
       [nzItemLayout]="'vertical'"
-      [nzRenderItem]="item"
-      [nzPagination]="pagination"
+      [nzRenderItem]="item2"
+      [nzPagination]="pagination2"
     >
-      <ng-template #item let-item>
-        <nz-list-item [nzContent]="item.content" [nzActions]="[starAction,likeAction,msgAction]" [nzExtra]="extra">
-          <ng-template #starAction><i nz-icon type="star-o" style="margin-right: 8px;"></i> 156</ng-template>
-          <ng-template #likeAction><i nz-icon type="like-o" style="margin-right: 8px;"></i> 156</ng-template>
+      <ng-template #item2 let-item2>
+        <nz-list-item [nzContent]="item2.content" [nzActions]="[starAction2,msgAction]" [nzExtra]="extra">
+          <ng-template #starAction2><i nz-icon type="star-o" style="margin-right: 8px;"></i> 100</ng-template>
           <ng-template #msgAction>
-            <button nz-button nzType="danger" (click)="deleteOne(item.id)">删除</button>
           </ng-template>
 
           <nz-list-item-meta
             [nzTitle]="nzTitle"
-            [nzDescription]="item.description">
-            <ng-template #nzTitle><a href="" (click)="download(item.id,item.title);false">{{item.title}}</a></ng-template>
+            [nzDescription]="item2.description">
+            <ng-template #nzTitle><a href="" (click)="download(item2.id,item2.title);false">{{item2.title}}</a>
+            </ng-template>
           </nz-list-item-meta>
           <ng-template #extra>
             <img width="272" alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png">
           </ng-template>
         </nz-list-item>
       </ng-template>
-      <!--  <ng-template #footer>-->
-      <!--    <div><b>ant design</b> footer part</div>-->
-      <!--  </ng-template>-->
 
       <!--分页-->
-      <ng-template #pagination>
+      <ng-template #pagination2>
         <nz-pagination [nzPageIndex]="1" [nzTotal]="otherLength"
                        (nzPageIndexChange)="loadData3($event)"></nz-pagination>
       </ng-template>
     </nz-list>
   </nz-tab>
+
 </nz-tabset>
 
 

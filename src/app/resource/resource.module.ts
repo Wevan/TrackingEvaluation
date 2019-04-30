@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ResourceRoutingModule } from './resource-routing.module';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ResourceRoutingModule} from './resource-routing.module';
 import {ResourceComponent} from './resource.component';
 import {ResourceService} from './resource.service';
 import {SharedModule} from '../shared/shared.module';
@@ -11,7 +11,6 @@ import {VgBufferingModule} from 'videogular2/buffering';
 import {VgOverlayPlayModule} from 'videogular2/overlay-play';
 import {VgControlsModule} from 'videogular2/controls';
 import {VgCoreModule} from 'videogular2/core';
-import {BrowserModule} from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -29,6 +28,8 @@ import {BrowserModule} from '@angular/platform-browser';
     VgBufferingModule,
     PdfViewerModule
   ],
+
   providers: [ResourceService],
 })
-export class ResourceModule { }
+export class ResourceModule {
+}
