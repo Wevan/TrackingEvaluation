@@ -1,0 +1,35 @@
+<nz-layout style="padding:20px; background: #fff;min-height: 500px">
+  <nz-list
+    [nzDataSource]="data"
+    [nzItemLayout]="'vertical'"
+    [nzRenderItem]="item1"
+    [nzPagination]="pagination"
+  >
+    <ng-template #item1 let-item1>
+      <nz-list-item [nzContent]="item1.content" [nzActions]="[starAction,msgAction]" [nzExtra]="extra">
+        <ng-template #starAction>
+          <i nz-icon type="star-o" style="margin-right: 8px;" (click)="removeAdd(item1.itemId)"></i>取消收藏
+        </ng-template>
+        <ng-template #msgAction>
+        </ng-template>
+
+        <nz-list-item-meta
+          [nzTitle]="nzTitle"
+          [nzDescription]="item1.description">
+          <ng-template #nzTitle><a href="javascript:void(0);"
+                                   (click)="detail(item1.id,item1.title);">{{item1.title}}</a>
+          </ng-template>
+        </nz-list-item-meta>
+        <ng-template #extra>
+          <img width="272" alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png">
+        </ng-template>
+      </nz-list-item>
+    </ng-template>
+
+    <!--分页-->
+    <ng-template #pagination>
+      <nz-pagination [nzPageIndex]="1" [nzTotal]="data.length"
+                     (nzPageIndexChange)="loadData($event)"></nz-pagination>
+    </ng-template>
+  </nz-list>
+</nz-layout>
