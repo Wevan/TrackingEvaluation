@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {ResourceService} from './resource.service';
 import {NzMessageService} from 'ng-zorro-antd';
 import {FormBuilder} from '@angular/forms';
-import {ResourceMsg} from '../entity/ResourceMsg';
 import {Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {Collection} from '../entity/Collection';
+import {ResourceShow} from '../entity/ResourceShow';
 
 @Component({
   selector: 'app-resource',
@@ -25,7 +25,7 @@ export class ResourceComponent implements OnInit {
   data1: any[] = [];
   data2: any[] = [];
 
-  list: ResourceMsg[] = [];
+  list: ResourceShow[] = [];
 
   listLength: number;
   videoLength: number;
@@ -37,13 +37,14 @@ export class ResourceComponent implements OnInit {
   videoList: any[] = [];
   pdfList: any[] = [];
   otherList: any[] = [];
-
+  classId: number;
 
   /**
    * 资源列表
    */
 
   ngOnInit(): void {
+    this.classId = <number><unknown>sessionStorage.getItem('classId');
     this.getList();
   }
 
@@ -56,24 +57,35 @@ export class ResourceComponent implements OnInit {
       this.data = new Array(10).fill({}).map((i, index) => {
         return {
           href: '/resource',
-          title: this.videoList[index + 10 * (pi - 1)].name,
+          title: this.videoList[index + 10 * (pi - 1)].resourceDirctoryFile.name,
           description: '',
           content: ' beautifully and efficiently.',
-          type: this.videoList[index + 10 * (pi - 1)].type,
-          url: this.videoList[index + 10 * (pi - 1)].url,
-          id: this.videoList[index + 10 * (pi - 1)].id
+          type: this.videoList[index + 10 * (pi - 1)].resourceDirctoryFile.type,
+          url: this.videoList[index + 10 * (pi - 1)].resourceDirctoryFile.url,
+          id: this.videoList[index + 10 * (pi - 1)].resourceDirctoryFile.id,
+          visible: this.videoList[index + 10 * (pi - 1)].resourceClass != null,
+          startTime: this.videoList[index + 10 * (pi - 1)].resourceClass != null ?
+            this.videoList[index + 10 * (pi - 1)].resourceClass.startTime : '',
+          endTime: this.videoList[index + 10 * (pi - 1)].resourceClass != null ?
+            this.videoList[index + 10 * (pi - 1)].resourceClass.endTime : ''
+
         };
       });
     } else {
       this.data = new Array(this.videoLength - 10 * (pi - 1)).fill({}).map((i, index) => {
         return {
           href: '/resource',
-          title: this.videoList[index + 10 * (pi - 1)].name,
-          description: 'Ant Design, a design language for background applications.',
+          title: this.videoList[index + 10 * (pi - 1)].resourceDirctoryFile.name,
+          description: '',
           content: ' beautifully and efficiently.',
-          type: this.videoList[index + 10 * (pi - 1)].type,
-          url: this.videoList[index + 10 * (pi - 1)].url,
-          id: this.videoList[index + 10 * (pi - 1)].id
+          type: this.videoList[index + 10 * (pi - 1)].resourceDirctoryFile.type,
+          url: this.videoList[index + 10 * (pi - 1)].resourceDirctoryFile.url,
+          id: this.videoList[index + 10 * (pi - 1)].resourceDirctoryFile.id,
+          visible: this.videoList[index + 10 * (pi - 1)].resourceClass != null,
+          startTime: this.videoList[index + 10 * (pi - 1)].resourceClass != null ?
+            this.videoList[index + 10 * (pi - 1)].resourceClass.startTime : '',
+          endTime: this.videoList[index + 10 * (pi - 1)].resourceClass != null ?
+            this.videoList[index + 10 * (pi - 1)].resourceClass.endTime : ''
         };
       });
     }
@@ -229,22 +241,22 @@ export class ResourceComponent implements OnInit {
    * 请求列表
    */
   getList() {
-    this.resourceService.getList(1).subscribe(
+    this.resourceService.getList(9, this.classId).subscribe(
       next => {
         this.list = next.data;
         this.listLength = this.list.length;
         const that = this;
-        this.list.map((item: ResourceMsg) => {
+        this.list.map((item: ResourceShow) => {
             // 0视频；1pdf；2其他文件
             // @ts-ignore
-            if (item.type === 0) {
+            if (item.resourceDirctoryFile.type === 0) {
               that.videoList.push(item);
             } else {
               // @ts-ignore
-              if (item.type === 1) {
-                that.pdfList.push(item);
+              if (item.resourceDirctoryFile.type === 1) {
+                that.pdfList.push(item.resourceDirctoryFile);
               } else {
-                that.otherList.push(item);
+                that.otherList.push(item.resourceDirctoryFile);
               }
             }
           }
@@ -252,6 +264,7 @@ export class ResourceComponent implements OnInit {
         this.videoLength = this.videoList.length;
         this.pdfLength = this.pdfList.length;
         this.otherLength = this.otherList.length;
+        console.log(this.videoList);
         this.loadData(1);
         this.loadData2(1);
         this.loadData3(1);

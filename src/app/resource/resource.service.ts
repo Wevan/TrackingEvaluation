@@ -39,23 +39,22 @@ export class ResourceService {
     const file = new FormData();
     file.append('file', resource.file);
     console.log('service file is ', resource.file);
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'Content-Type': 'multipart/form-data'
-    //   })
-    // };
 
     return this.http.post<Result>(heroesUrl, file);
   }
 
-  getList(courseId: number): Observable<Result> {
-    const url = '/resource/list?courseId=' + courseId;
+  getList(courseId: number, classId: number): Observable<Result> {
+    const url = '/resource/list?courseId=' + courseId + '&classId=' + classId;
     return this.http.get<Result>(url);
   }
 
-  deleteOne(id: number): Observable<Result> {
-    const url = '/resource/deleteOne?id=' + id;
-    return this.http.delete<Result>(url);
+  /**
+   * 播放量
+   * @param id 资源id
+   */
+  playTimes(id: number): Observable<Result> {
+    const url = `/resource/playTimes?id=` + id;
+    return this.http.get<Result>(url);
   }
 
   download(id: number): Observable<any> {

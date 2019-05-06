@@ -147,6 +147,14 @@ export class DetailResourceComponent implements OnInit, AfterViewInit {
             console.log(err);
           }
         );
+        this.resourceService.playTimes(this.resourceId).subscribe(
+          next => {
+            console.log('播放量', next);
+          },
+          err => {
+            console.log(err);
+          }
+        );
       }
     );
   }
