@@ -18,6 +18,8 @@ export class ResourceComponent implements OnInit {
               private cookieService: CookieService) {
   }
 
+  courseId = 9;
+
   /**
    * 资源list列表数据
    */
@@ -46,6 +48,7 @@ export class ResourceComponent implements OnInit {
   ngOnInit(): void {
     this.classId = <number><unknown>sessionStorage.getItem('classId');
     this.getList();
+    this.getTqPercent();
   }
 
   /**
@@ -241,7 +244,7 @@ export class ResourceComponent implements OnInit {
    * 请求列表
    */
   getList() {
-    this.resourceService.getList(9, this.classId).subscribe(
+    this.resourceService.getList(this.courseId, this.classId).subscribe(
       next => {
         this.list = next.data;
         this.listLength = this.list.length;
@@ -330,6 +333,20 @@ export class ResourceComponent implements OnInit {
     }
     return date.getFullYear() + '-' + month + '-' + strDate + ' '
       + strHour + ':' + strMin + ':' + strSec;
+  }
+
+  /**
+   * 获取本期课程的达标度
+   */
+  getTqPercent() {
+    this.resourceService.getTqPercent(this.courseId, this.classId).subscribe(
+      next => {
+        console.log('同期Percent', next);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
 }

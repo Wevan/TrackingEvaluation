@@ -100,4 +100,12 @@ export class ResourceService {
     return this.http.post<Result>(url, collection);
   }
 
+  /**
+   * 获取本期课程的达标度
+   */
+  getTqPercent(courseId: number, classId: number) {
+    const url = '/resource/getTqPercent?courseId=' + courseId + '&classId=' + classId;
+    return this.http.get<Result>(url);
+  }
+
 }

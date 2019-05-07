@@ -26,7 +26,7 @@
 
         </li>
         <li style="margin-top: 50px;text-align: center;">
-          <app-progress [graduate]="graduatePercent"></app-progress>
+          <app-progress [graduate]="graduatePercent|number:'.4'"></app-progress>
         </li>
         <li>
 
@@ -64,7 +64,7 @@
       <app-card routerLink="/resource"></app-card>
     </div>
     <div style="color: #585858;margin-top: 18px">
-      <b >
+      <b>
         推荐你看
       </b>
     </div>
