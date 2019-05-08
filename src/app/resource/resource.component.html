@@ -1,3 +1,5 @@
+<nz-alert nzType="info" nzMessage="本期的课程要求达成度为{{tqPercent * 100}}%,你的现阶段课程达标度为{{selfPercent * 100}}%"></nz-alert>
+<!--本期的课程要求达成度为{{tqPercent * 100}}%,你的现阶段课程达标度为{{selfPercent * 100}}%-->
 <nz-tabset>
   <nz-tab nzTitle="视频">
     <nz-list
@@ -20,7 +22,7 @@
           <nz-list-item-meta
             [nzTitle]="nzTitle"
             [nzDescription]="item1.description">
-            <ng-template #nzTitle><a href="" (click)="download(item1.id,item1.title);false">{{item1.title}}</a>
+            <ng-template #nzTitle><a href="" (click)="videoPlay(item1.id,item1.endTime);false">{{item1.title}}</a>
             </ng-template>
           </nz-list-item-meta>
           <ng-template #extra>
@@ -47,7 +49,8 @@
       <ng-template #item let-item>
         <nz-list-item [nzContent]="item.content" [nzActions]="[starAction1,msgAction]" [nzExtra]="extra">
           <ng-template #starAction1><i nz-icon type="star-o" style="margin-right: 8px;"
-                                       (click)="collection(item.id,item.url,item.type,item.title)"></i> 156</ng-template>
+                                       (click)="collection(item.id,item.url,item.type,item.title)"></i> 156
+          </ng-template>
           <ng-template #msgAction>
           </ng-template>
 

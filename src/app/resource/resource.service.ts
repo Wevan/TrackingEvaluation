@@ -102,9 +102,11 @@ export class ResourceService {
 
   /**
    * 获取本期课程的达标度
+   * studentId 1713010101型
    */
-  getTqPercent(courseId: number, classId: number) {
-    const url = '/resource/getTqPercent?courseId=' + courseId + '&classId=' + classId;
+  getTqPercent(courseId: number, classId: number, studentId: number) {
+    const url = '/resource/getTqPercent?courseId=' + courseId + '&classId=' + classId +
+      '&studentId=' + studentId;
     return this.http.get<Result>(url);
   }
 

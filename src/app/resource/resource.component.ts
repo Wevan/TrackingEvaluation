@@ -41,12 +41,16 @@ export class ResourceComponent implements OnInit {
   otherList: any[] = [];
   classId: number;
 
-  /**
-   * 资源列表
-   */
+  studentUname = 0;
+  tqPercent = 0;
+  selfPercent = 0;
 
   ngOnInit(): void {
     this.classId = <number><unknown>sessionStorage.getItem('classId');
+    this.studentUname = <number><unknown>localStorage.getItem('userName');
+    if (this.studentUname === 0 || this.studentUname === null) {
+      this.studentUname = <number><unknown>sessionStorage.getItem('userName');
+    }
     this.getList();
     this.getTqPercent();
   }
@@ -156,6 +160,10 @@ export class ResourceComponent implements OnInit {
   /**
    * 下载
    */
+  videoPlay(id: number, endTime: number) {
+    this.router.navigate(['/resource/video', id, endTime]);
+  }
+
   download(id: number, name: string) {
     const arr = name.split('.');
     if (arr[1] === 'mp4') {
@@ -339,9 +347,11 @@ export class ResourceComponent implements OnInit {
    * 获取本期课程的达标度
    */
   getTqPercent() {
-    this.resourceService.getTqPercent(this.courseId, this.classId).subscribe(
+    this.resourceService.getTqPercent(this.courseId, this.classId, this.studentUname).subscribe(
       next => {
         console.log('同期Percent', next);
+        this.tqPercent = next.data.tqPercent;
+        this.selfPercent = next.data.selfPercent;
       },
       err => {
         console.log(err);

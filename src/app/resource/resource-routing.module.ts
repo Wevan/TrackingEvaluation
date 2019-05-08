@@ -7,7 +7,7 @@ import {PdfViewerSelfComponent} from './pdf-viewer-self/pdf-viewer-self.componen
 const routes: Routes = [
   {path: '', component: ResourceComponent},
   {path: 'viewer/:id', component: PdfViewerSelfComponent},
-  {path: 'video/:id', component: DetailResourceComponent}
+  {path: 'video/:id/:endTime', component: DetailResourceComponent}
 ];
 
 @NgModule({

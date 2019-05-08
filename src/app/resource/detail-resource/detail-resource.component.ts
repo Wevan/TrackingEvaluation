@@ -40,10 +40,12 @@ export class DetailResourceComponent implements OnInit, AfterViewInit {
   resourceId = 0;
   resourceDetail;
 
+  // 资源的终止时间
+  endTime = 0;
 
   ngOnInit() {
-    console.log('Get the id param is ', this.routerInfo.snapshot.params['id']);
     this.resourceId = this.routerInfo.snapshot.params['id'];
+    this.endTime = this.routerInfo.snapshot.params['endTime'];
     this.urlParam = 'http://localhost:8085/resource/getVideo?id=' + this.routerInfo.snapshot.params['id'];
     this.getAllComment();
   }
@@ -137,16 +139,19 @@ export class DetailResourceComponent implements OnInit, AfterViewInit {
         if (studentId === null || studentId === '') {
           studentId = sessionStorage.getItem('userName');
         }
-        this.resourceService.findByResource(this.resourceId, <number><unknown>studentId).subscribe(
-          next => {
-            if (!next.data) {
-              this.videoEnd();
+        const dateNow = new Date();
+        if (this.endTime > dateNow.getTime()) {
+          this.resourceService.findByResource(this.resourceId, <number><unknown>studentId).subscribe(
+            next => {
+              if (!next.data) {
+                this.videoEnd();
+              }
+            },
+            err => {
+              console.log(err);
             }
-          },
-          err => {
-            console.log(err);
-          }
-        );
+          );
+        }
         this.resourceService.playTimes(this.resourceId).subscribe(
           next => {
             console.log('播放量', next);
