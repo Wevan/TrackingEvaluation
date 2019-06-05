@@ -23,12 +23,12 @@ export class CanLoginProvide implements CanActivate, CanLoad {
         o.next(false);
         o.complete();
         this.router.navigateByUrl('/login');
-        console.log('if exe', token);
+        console.log('if exe');
         return;
       } else {
         o.next(true);
         o.complete();
-        console.log('else exe', token);
+        console.log('else exe');
         return;
       }
     });

@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Result} from '../entity/Result';
 import {HttpClient} from '@angular/common/http';
+import {Course} from '../entity/Course';
+import {ListService} from '../list/list.service';
 
 @Component({
   selector: 'app-nz-demo-layout-top-side',
@@ -26,6 +28,8 @@ export class IndexComponent implements OnInit {
         console.log('User Info is ', next.data);
         sessionStorage.setItem('uid', next.data.userId);
         sessionStorage.setItem('Name', next.data.name);
+        sessionStorage.setItem('collegeId', next.data.collegeId);
+        sessionStorage.setItem('directionId', next.data.directionId);
         sessionStorage.setItem('identity', next.data.id);
         sessionStorage.setItem('classId', next.data.classId);
       },

@@ -28,7 +28,6 @@ import {VgCoreModule} from 'videogular2/core';
     VgBufferingModule,
     PdfViewerModule
   ],
-
   providers: [ResourceService],
 })
 export class ResourceModule {

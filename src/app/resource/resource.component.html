@@ -1,5 +1,5 @@
 <nz-alert nzType="info" nzMessage="本期的课程要求达成度为{{tqPercent * 100}}%,你的现阶段课程达标度为{{selfPercent * 100}}%"></nz-alert>
-<!--本期的课程要求达成度为{{tqPercent * 100}}%,你的现阶段课程达标度为{{selfPercent * 100}}%-->
+
 <nz-tabset>
   <nz-tab nzTitle="视频">
     <nz-list
@@ -15,7 +15,7 @@
                (click)="collection(item1.id,item1.url,item1.type,item1.title)"></i>
           </ng-template>
           <ng-template #msgAction>
-            <span *ngIf="item1.visible">{{item1.startTime}} -- {{item1.endTime}}</span>
+            <span *ngIf="item1.visible">{{timestampToTime(item1.startTime)}} -- {{timestampToTime(item1.endTime)}}</span>
             <span *ngIf="!item1.visible">暂未指定起始时间，请勿查看资源</span>
           </ng-template>
 

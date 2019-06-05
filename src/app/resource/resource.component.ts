@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ResourceService} from './resource.service';
 import {NzMessageService} from 'ng-zorro-antd';
 import {FormBuilder} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {Collection} from '../entity/Collection';
 import {ResourceShow} from '../entity/ResourceShow';
@@ -14,11 +14,12 @@ import {ResourceShow} from '../entity/ResourceShow';
 })
 export class ResourceComponent implements OnInit {
 
-  constructor(private msg: NzMessageService, private resourceService: ResourceService, private fb: FormBuilder, private router: Router,
-              private cookieService: CookieService) {
+  constructor(private msg: NzMessageService, private resourceService: ResourceService, private fb: FormBuilder,
+              private router: Router,
+              private cookieService: CookieService, private routerInfo: ActivatedRoute) {
   }
 
-  courseId = 9;
+  courseId = 2;
 
   /**
    * 资源list列表数据
@@ -46,6 +47,7 @@ export class ResourceComponent implements OnInit {
   selfPercent = 0;
 
   ngOnInit(): void {
+    this.courseId = this.routerInfo.snapshot.params['courseId'];
     this.classId = <number><unknown>sessionStorage.getItem('classId');
     this.studentUname = <number><unknown>localStorage.getItem('userName');
     if (this.studentUname === 0 || this.studentUname === null) {
@@ -90,7 +92,7 @@ export class ResourceComponent implements OnInit {
           id: this.videoList[index + 10 * (pi - 1)].resourceDirctoryFile.id,
           visible: this.videoList[index + 10 * (pi - 1)].resourceClass != null,
           startTime: this.videoList[index + 10 * (pi - 1)].resourceClass != null ?
-            this.videoList[index + 10 * (pi - 1)].resourceClass.startTime : '',
+            this.timestampToTime(this.videoList[index + 10 * (pi - 1)].resourceClass.startTime) : '',
           endTime: this.videoList[index + 10 * (pi - 1)].resourceClass != null ?
             this.videoList[index + 10 * (pi - 1)].resourceClass.endTime : ''
         };
@@ -161,7 +163,7 @@ export class ResourceComponent implements OnInit {
    * 下载
    */
   videoPlay(id: number, endTime: number) {
-    this.router.navigate(['/resource/video', id, endTime]);
+    this.router.navigate(['/resource/' + this.courseId + '/video', id, endTime]);
   }
 
   download(id: number, name: string) {
@@ -357,6 +359,20 @@ export class ResourceComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  /**
+   * 转换时间戳
+   */
+  timestampToTime(timestamp) {
+    const date = new Date(timestamp);
+    const Y = date.getFullYear() + '-';
+    const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+    const D = date.getDate() + ' ';
+    const h = date.getHours() + ':';
+    const m = date.getMinutes() + ':';
+    const s = date.getSeconds();
+    return Y + M + D + h + m + s;
   }
 
 }

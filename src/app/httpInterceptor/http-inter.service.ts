@@ -8,7 +8,7 @@ import {CookieService} from 'ngx-cookie-service';
 
 @Injectable()
 export class HttpInter implements HttpInterceptor {
-  private baseUrl: string;
+  private readonly baseUrl: string;
   private token: string;
 
   constructor(private router: Router, private cookieService: CookieService) {
@@ -27,13 +27,12 @@ export class HttpInter implements HttpInterceptor {
     let ok: string;
     let request: HttpRequest<any>;
     // 登录无需要token
-    console.log('URL ', req.url);
+    // console.log('URL ', req.url);
     if (this.cookieService.get('token')) {
       this.token = this.cookieService.get('token');
     } else {
       this.token = sessionStorage.getItem('token');
     }
-    console.log('Token is ', this.token);
     if (req.url === '/user/login' || req.url === '/report/down') {
       request = req.clone({
         url: `${this.baseUrl}${req.url}`,
@@ -47,7 +46,6 @@ export class HttpInter implements HttpInterceptor {
           this.token,
         ),
       });
-      console.log('Token ', localStorage.getItem('token'));
     }
     return next.handle(request).pipe(
       tap(
