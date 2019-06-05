@@ -1,0 +1,66 @@
+<!--视频播放-->
+
+<vg-player>
+  <vg-overlay-play></vg-overlay-play>
+  <vg-buffering></vg-buffering>
+
+  <vg-controls>
+    <vg-play-pause></vg-play-pause>
+    <vg-playback-button></vg-playback-button>
+
+    <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+    <vg-scrub-bar>
+      <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+      <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+    </vg-scrub-bar>
+
+    <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+    <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+    <vg-track-selector></vg-track-selector>
+    <vg-mute></vg-mute>
+    <vg-volume></vg-volume>
+
+    <vg-fullscreen></vg-fullscreen>
+  </vg-controls>
+
+  <video [vgMedia]="media" #media id="singleVideo" preload="auto" crossorigin>
+    <!--<source #source type="video/mp4">-->
+    <source [src]=urlParam type="video/mp4">
+  </video>
+</vg-player>
+
+
+<!--评论部分-->
+<div style="margin-top: 10px;margin-bottom: 10px">
+  <hr>
+</div>
+<div style="margin-bottom: 8px;">
+  评论区
+</div>
+
+<!--添加评论-->
+<nz-list *ngIf="commentdata.length" [nzDataSource]="commentdata" [nzRenderItem]="item" [nzItemLayout]="'horizontal'">
+  <ng-template #item let-item>
+    <nz-comment [nzAuthor]="item.author" [nzDatetime]="item.displayTime">
+      <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="item.avatar"></nz-avatar>
+      <nz-comment-content>
+        <p>{{ item.content }}</p>
+      </nz-comment-content>
+    </nz-comment>
+  </ng-template>
+</nz-list>
+<nz-comment>
+  <nz-avatar nz-comment-avatar nzIcon="user" [nzSrc]="user.avatar"></nz-avatar>
+  <nz-comment-content>
+    <nz-form-item>
+      <textarea [(ngModel)]="inputValue" nz-input rows="4"></textarea>
+    </nz-form-item>
+    <nz-form-item>
+      <button nz-button nzType="primary" [nzLoading]="submitting" [disabled]="!inputValue" (click)="handleSubmit()">
+        Add Comment
+      </button>
+    </nz-form-item>
+  </nz-comment-content>
+</nz-comment>
